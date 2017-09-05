@@ -1,0 +1,187 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<link href="__ROOT__/Public/css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="__ROOT__/Public/js/jquery.js"></script>
+<script type="text/javascript" src="__ROOT__/Public/js/showdate.js"></script>
+
+
+<style>  
+    .pages a,  
+    .pages span {  
+        display: inline-block;  
+        padding: 2px 5px;  
+        margin: 0 1px;  
+        border: 1px solid #f0f0f0;  
+        -webkit-border-radius: 3px;  
+        -moz-border-radius: 3px;  
+        border-radius: 3px;  
+    }  
+      
+    .pages a,  
+    .pages li {  
+        display: inline-block;  
+        list-style: none;  
+        text-decoration: none;  
+        color: #58A0D3;  
+    }  
+      
+    .pages a.first,  
+    .pages a.prev,  
+    .pages a.next,  
+    .pages a.end {  
+        margin: 0;  
+    }  
+      
+    .pages a:hover {  
+        border-color: #50A8E6;  
+    }  
+      
+    .pages span.current {  
+        background: #50A8E6;  
+        color: #FFF;  
+        font-weight: 700;  
+        border-color: #50A8E6;  
+    }  
+</style>  
+
+</head>
+
+
+<body>
+
+	<div class="place">
+    <span>位置：</span>
+    <ul class="placeul">
+    <li><a href="#">首页</a></li>
+    <li><a href="#">财务管理</a></li>
+    <li><a href="#">结算记录表</a></li>
+    </ul>
+    </div>
+    
+    <div class="rightinfo">
+    
+    <div class="tools">
+    
+    	<!-- <ul class="toolbar">
+        <li class="click"><span><img src="__ROOT__/Public/images/t01.png" /></span>添加</li>
+        <li class="click"><span><img src="__ROOT__/Public/images/t02.png" /></span>修改</li>
+        <li><span><img src="__ROOT__/Public/images/t03.png" /></span>删除</li>
+        <li><span><img src="__ROOT__/Public/images/t04.png" /></span>统计</li>
+        </ul> -->
+        
+        <ul class="toolbar">
+            <li class="click"><a href="{:u('payExport_four')}"><span></span>导出Excel</a></li>
+        </ul>
+        <form action="{:u('Index/account_list')}" method="get">
+            
+            <ul class="toolbar1" style="margin-right: 40px;">
+                 <li>
+                    <if condition="$user_type eq 1">
+                        <span style="margin-top: 10px;">
+                            <select name="type">
+                                <option value="0">选择搜索方式</option>
+                                <option value="1">家族长ID</option>
+                                <option value="2">家族长昵称</option>
+                                <option value="3" selected="selected">期数</option>
+                                <option value="4">期数+家族长昵称</option>
+                                <option value="5">期数+家族长ID</option>
+                            </select>
+                        </span>
+                    </if>
+                    
+                 <span style="margin-top: 2px;">
+                 期数:<input type="text" id="st" name="st" onclick="return Calendar('st');" value="{$where_search}" class="text" style="width:85px;"/>&nbsp;&nbsp;&nbsp;
+                    <if condition="$user_type eq 1">
+                        <input type="text" name="search_name" style="height:22px;background: #d4e7f0;" placeholder="家族长ID/家族长昵称">
+                    </if>
+                 
+                 <input type="submit" value="搜索" />
+                 </span>
+                 </li>
+            </ul>
+        </form>
+
+    </div>
+    
+    
+    <table class="tablelist">
+    	<thead>
+    	<tr>
+        <th><input name="" type="checkbox" value="" checked="checked"/></th>
+        <th>编号</th>
+        <th>家族长id</th>
+        <th>家族长昵称</th>
+        <th>家族名称</th>
+        <th>本期结算魔力值</th>
+        <th>本期未结算魔力值</th>
+        <th>本期收益/元</th>
+        <th>提成系数</th>
+        <th>期数</th>
+        <th>创建时间</th>
+        <!-- <th>提成系数</th> -->
+        <!-- <th>期</th> -->
+        <!-- <th>操作</th> -->
+        </tr>
+        </thead>
+        <tbody>
+        <volist name="settlementHistory_data" id= "vo">
+        <tr>
+        <td><input name="" type="checkbox" value="" /></td>
+        <td>{$vo.id}</td>
+        <td>{$vo.user_id}</td>
+        <td>{$vo.nick_name}</td>
+        <td>{$vo.name}</td>
+        <td>{$vo.total_ticket}</td>
+        <td>{$vo.total_ticket_no}</td>
+        <td>{$vo.earnings}</td>
+        <td>{$vo.coefficient}</td>
+        <td>{$vo.expect_date}</td>
+        <td>{$vo.create_time|date="Y-m-d H:i:s",###}</td>
+
+        <!-- <td>{$vo.coefficient}</td> -->
+        <!-- <td>期</td> -->
+        <!-- <td><a href="{:u('user_data_list')}?id={$vo.id}" class="tablelink">成员直播明细</a></td> -->
+        </tr> 
+        </volist>
+        </tbody>
+    </table>
+    
+   
+    <div class="pages">
+        {$page}
+    </div>
+    
+    
+    <div class="tip">
+    	<div class="tiptop"><span>提示信息</span><a></a></div>
+        
+      <div class="tipinfo">
+        <span><img src="__ROOT__/Public/images/ticon.png" /></span>
+        <div class="tipright">
+        <p>是否确认对信息的修改 ？</p>
+        <cite>如果是请点击确定按钮 ，否则请点取消。</cite>
+        </div>
+        </div>
+        
+        <div class="tipbtn">
+        <input name="" type="button"  class="sure" value="确定" />&nbsp;
+        <input name="" type="button"  class="cancel" value="取消" />
+        </div>
+    
+    </div>
+    
+    
+    
+    
+    </div>
+    
+    <!-- <script type="text/javascript">
+	$('.tablelist tbody tr:odd').addClass('odd');
+	</script> -->
+
+</body>
+
+</html>
